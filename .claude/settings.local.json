@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p specs/1-module-specs)",
+      "Bash(powershell.exe -Command \"& \"\".specify\\scripts\\powershell\\check-prerequisites.ps1\"\" -Json -RequireTasks -IncludeTasks\")"
+    ]
+  }
+}
