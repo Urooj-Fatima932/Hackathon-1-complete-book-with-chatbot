@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(mkdir -p specs/1-module-specs)",
-      "Bash(powershell.exe -Command \"& \"\".specify\\scripts\\powershell\\check-prerequisites.ps1\"\" -Json -RequireTasks -IncludeTasks\")"
+      "Bash(powershell.exe -Command \"& \"\".specify\\scripts\\powershell\\check-prerequisites.ps1\"\" -Json -RequireTasks -IncludeTasks\")",
+      "Bash(.venv/Scripts/python.exe -c \"import fastapi; import uvicorn; import cohere; print\\(''Dependencies OK''\\)\")",
+      "Bash(.venv/Scripts/python.exe:*)",
+      "Bash(npm run build:*)"
     ]
   }
 }
