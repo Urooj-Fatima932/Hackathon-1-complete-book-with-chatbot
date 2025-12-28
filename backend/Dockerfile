@@ -18,4 +18,5 @@ COPY . .
 EXPOSE ${PORT:-7860}
 
 # Run the app using HF-provided port
-CMD ["sh", "-c", "uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-7860}"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "7860"]
+
