@@ -1,0 +1,28 @@
+2025-12-22 21:21:46 - root - INFO - [logging_config.py:50] - ================================================================================
+2025-12-22 21:21:46 - root - INFO - [logging_config.py:51] - Chatbot logging system initialized
+2025-12-22 21:21:46 - root - INFO - [logging_config.py:52] - Log file: C:\Users\Saqlain\OneDrive\Desktop\project\backend\logs\chatbot_20251222.log
+2025-12-22 21:21:46 - root - INFO - [logging_config.py:53] - ================================================================================
+============================================================
+INTENT CLASSIFICATION TEST
+============================================================
+2025-12-22 21:21:47 - httpx - INFO - [_client.py:1740] - HTTP Request: POST https://api.cohere.com/v1/chat "HTTP/1.1 200 OK"
+2025-12-22 21:21:47 - service - INFO - [intent_classifier.py:47] - Classified intent: greeting
+[OK] 'Hi' -> greeting (expected: greeting)
+Traceback (most recent call last):
+  File "C:\Users\Saqlain\OneDrive\Desktop\project\backend\test_intent_classifier.py", line 52, in <module>
+    asyncio.run(test_intent_classification())
+  File "C:\Users\Saqlain\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Saqlain\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Saqlain\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 650, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Saqlain\OneDrive\Desktop\project\backend\test_intent_classifier.py", line 48, in test_intent_classification
+    print(f"  Response: {response[:80]}...")
+  File "C:\Users\Saqlain\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f44b' in position 19: character maps to <undefined>
