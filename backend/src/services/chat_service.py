@@ -1,12 +1,10 @@
 # src/services/chat_service.py
 import asyncio
 import traceback
-from typing import List, Tuple, Generator
+from typing import List, Tuple, Generator, Optional
 import cohere
 from ..core.config import settings
 from ..services.conversation_service import ConversationService
-from ..services.embedding_service import EmbeddingService
-from ..services.retrieval_service import RetrievalService
 from ..core.database import get_db
 from ..models.conversation import Message
 from ..core.logging_config import service_logger
@@ -15,21 +13,39 @@ from ..utils.intent_classifier import IntentClassifier
 
 class ChatService:
     """Main service for handling chat functionality"""
-    
-    def __init__(self, db):
+
+    def __init__(self, db, app_state: Optional[dict] = None):
         service_logger.debug("Initializing ChatService")
         self.db = db
         self.conversation_service = ConversationService(db)
-        self.embedding_service = EmbeddingService()
-        self.retrieval_service = RetrievalService()
+        self.app_state = app_state
         self.intent_classifier = IntentClassifier()
 
-        try:
-            self.cohere_client = cohere.AsyncClient(settings.cohere_api_key)
-            service_logger.debug("Cohere client initialized successfully")
-        except Exception as e:
-            service_logger.error(f"Failed to initialize Cohere client: {str(e)}")
-            raise
+    def _get_services(self):
+        """Lazily get services from app_state."""
+        if self.app_state is None:
+            return None
+        return self.app_state
+
+    def _get_cohere_client(self):
+        """Get or create Cohere client."""
+        if self.app_state and hasattr(self.app_state, 'cohere_client'):
+            return self.app_state.cohere_client
+        return cohere.AsyncClient(settings.cohere_api_key)
+
+    def _get_embedding_service(self):
+        """Get or create embedding service."""
+        if self.app_state and hasattr(self.app_state, 'embedding_service'):
+            return self.app_state.embedding_service
+        from ..services.embedding_service import EmbeddingService
+        return EmbeddingService()
+
+    def _get_retrieval_service(self):
+        """Get or create retrieval service."""
+        if self.app_state and hasattr(self.app_state, 'retrieval_service'):
+            return self.app_state.retrieval_service
+        from ..services.retrieval_service import RetrievalService
+        return RetrievalService()
     
     async def create_user_message(self, conversation_id: str, content: str) -> Message:
         """Create a user message in the conversation"""
@@ -68,7 +84,8 @@ class ChatService:
 
             # Retrieve relevant context from documents
             service_logger.info("Retrieving context from knowledge base...")
-            context_docs = await self.retrieval_service.search_and_rerank(
+            retrieval_service = self._get_retrieval_service()
+            context_docs = await retrieval_service.search_and_rerank(
                 query=user_message.content,
                 search_top_k=settings.retrieval_limit,
                 rerank_top_k=settings.rerank_top_k

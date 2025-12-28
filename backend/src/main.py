@@ -5,10 +5,9 @@ from .api.query import router as query_router
 from .api.user import router as user_router
 from .core.config import settings
 from .core.logging_config import root_logger
-from .services.embedding_service import EmbeddingService
-from .services.retrieval_service import RetrievalService
 import cohere
 from qdrant_client import AsyncQdrantClient
+import asyncio
 
 
 def create_app() -> FastAPI:
@@ -46,37 +45,31 @@ def create_app() -> FastAPI:
         root_logger.info("APPLICATION STARTUP")
         root_logger.info(f"App Name: {settings.app_name}")
         root_logger.info(f"Debug Mode: {settings.debug}")
-        root_logger.info(f"Database URL: {settings.database_url[:30]}...")
-        root_logger.info(f"Qdrant URL: {settings.qdrant_url}")
 
-        # Pre-initialize services to avoid cold start on first request
-        root_logger.info("Pre-initializing services...")
-        try:
-            # Initialize Cohere client
+        # Lazy initialization - services will initialize on first request
+        # This prevents startup timeouts when external services are unreachable
+        root_logger.info("Services will initialize lazily on first request")
+        root_logger.info("="*80)
+
+    async def get_services():
+        """Lazily initialize and return services."""
+        if not hasattr(app.state, 'cohere_client'):
+            root_logger.info("Initializing Cohere client...")
             app.state.cohere_client = cohere.AsyncClient(settings.cohere_api_key)
-            root_logger.info("[OK] Cohere client initialized")
-
-            # Initialize Qdrant client
+        if not hasattr(app.state, 'qdrant_client'):
+            root_logger.info("Initializing Qdrant client...")
             app.state.qdrant_client = AsyncQdrantClient(
                 url=settings.qdrant_url,
                 api_key=settings.qdrant_api_key,
                 prefer_grpc=False
             )
-            root_logger.info("[OK] Qdrant client initialized")
-
-            # Initialize embedding service
+        if not hasattr(app.state, 'embedding_service'):
+            from .services.embedding_service import EmbeddingService
             app.state.embedding_service = EmbeddingService()
-            root_logger.info("[OK] Embedding service initialized")
-
-            # Initialize retrieval service
+        if not hasattr(app.state, 'retrieval_service'):
+            from .services.retrieval_service import RetrievalService
             app.state.retrieval_service = RetrievalService()
-            root_logger.info("[OK] Retrieval service initialized")
-
-            root_logger.info("All services pre-initialized successfully!")
-        except Exception as e:
-            root_logger.error(f"Error pre-initializing services: {e}")
-
-        root_logger.info("="*80)
+        return app.state
 
     @app.on_event("shutdown")
     async def shutdown_event():

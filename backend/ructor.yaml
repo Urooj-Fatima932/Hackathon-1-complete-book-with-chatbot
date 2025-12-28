@@ -10,7 +10,9 @@ tags:
   - cohere
 emoji: 🤖
 private: false
+env: static
 variables:
+  PORT: "7860"
   COHERE_API_KEY: ""
   QDRANT_URL: ""
   QDRANT_API_KEY: ""
