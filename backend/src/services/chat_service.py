@@ -1,10 +1,12 @@
 # src/services/chat_service.py
 import asyncio
 import traceback
-from typing import List, Tuple, Generator, Optional
+from typing import List, Tuple, Generator
 import cohere
 from ..core.config import settings
 from ..services.conversation_service import ConversationService
+from ..services.embedding_service import EmbeddingService
+from ..services.retrieval_service import RetrievalService
 from ..core.database import get_db
 from ..models.conversation import Message
 from ..core.logging_config import service_logger
@@ -14,18 +16,12 @@ from ..utils.intent_classifier import IntentClassifier
 class ChatService:
     """Main service for handling chat functionality"""
 
-    def __init__(self, db, app_state: Optional[dict] = None):
+    def __init__(self, db, app_state=None):
         service_logger.debug("Initializing ChatService")
         self.db = db
         self.conversation_service = ConversationService(db)
         self.app_state = app_state
         self.intent_classifier = IntentClassifier()
-
-    def _get_services(self):
-        """Lazily get services from app_state."""
-        if self.app_state is None:
-            return None
-        return self.app_state
 
     def _get_cohere_client(self):
         """Get or create Cohere client."""
@@ -46,15 +42,15 @@ class ChatService:
             return self.app_state.retrieval_service
         from ..services.retrieval_service import RetrievalService
         return RetrievalService()
-    
+
     async def create_user_message(self, conversation_id: str, content: str) -> Message:
         """Create a user message in the conversation"""
         return await self.conversation_service.create_user_message(conversation_id, content)
-    
+
     async def create_ai_message(self, conversation_id: str, content: str, sources: list = None) -> Message:
         """Create an AI message in the conversation"""
         return await self.conversation_service.create_ai_message(conversation_id, content, sources)
-    
+
     async def generate_response_sync(self, conversation_id: str, user_message: Message) -> str:
         """Generate a response synchronously (for non-streaming)"""
         service_logger.info(f"Generating response for conversation {conversation_id}")
@@ -84,8 +80,7 @@ class ChatService:
 
             # Retrieve relevant context from documents
             service_logger.info("Retrieving context from knowledge base...")
-            retrieval_service = self._get_retrieval_service()
-            context_docs = await retrieval_service.search_and_rerank(
+            context_docs = await self.retrieval_service.search_and_rerank(
                 query=user_message.content,
                 search_top_k=settings.retrieval_limit,
                 rerank_top_k=settings.rerank_top_k
@@ -160,7 +155,7 @@ Please try rephrasing your question or ask about topics covered in the textbook.
             service_logger.error(f"Error message: {str(e)}")
             service_logger.error(f"Full traceback:\n{traceback.format_exc()}")
             raise
-    
+
     async def generate_response_stream(self, conversation_id: str, user_message: Message) -> Generator[str, None, None]:
         """Generate a response with streaming"""
         service_logger.info(f"Generating streaming response for conversation {conversation_id}")
@@ -200,7 +195,7 @@ Answer (based ONLY on the context above):"""
             async for event in stream:
                 if event.event_type == "text-generation":
                     yield event.text
-    
+
     async def query_selected_text(self, selected_text: str, context: str = "") -> Tuple[str, List[dict]]:
         """Handle query based on selected text"""
         # Retrieve relevant context from documents based on selected text
@@ -209,16 +204,16 @@ Answer (based ONLY on the context above):"""
             search_top_k=settings.retrieval_limit,
             rerank_top_k=settings.rerank_top_k
         )
-        
+
         # Format the context from retrieved documents
         context_text = "\n\n".join([doc["content"] for doc in context_docs])
-        
+
         # Prepare the prompt with both selected text and any additional context
         if context_text:
             prompt = f"Selected text: {selected_text}\n\nAdditional context: {context}\n\nBased on the selected text and documentation, please provide relevant information:"
         else:
             prompt = f"Selected text: {selected_text}\n\nAdditional context: {context}\n\nPlease provide information about this selection:"
-        
+
         # Generate response using Cohere Chat API (replaces deprecated generate API)
         response = await self.cohere_client.chat(
             model="command-r-plus-08-2024",
@@ -228,7 +223,7 @@ Answer (based ONLY on the context above):"""
         )
 
         response_text = response.text if response.text else "I couldn't find relevant information."
-        
+
         # Format sources
         sources = [
             {
@@ -239,5 +234,5 @@ Answer (based ONLY on the context above):"""
             }
             for doc in context_docs
         ]
-        
+
         return response_text, sources

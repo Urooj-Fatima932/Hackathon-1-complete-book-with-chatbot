@@ -1,0 +1,359 @@
+# API Contracts: Docusaurus Chatbot UI
+
+## Overview
+
+This document defines the API contracts for the backend services required for the RAG chatbot implementation. All endpoints follow RESTful principles with appropriate HTTP status codes and JSON responses.
+
+## Authentication
+
+All API endpoints require authentication via session-based authentication or API key. For anonymous users, session ID is tracked via cookies or headers.
+
+## Endpoints
+
+### 1. Chat Service
+
+#### POST /api/chat/start
+Start a new conversation
+
+**Request**:
+```json
+{
+  "session_id": "string",
+  "initial_message": "string"
+}
+```
+
+**Response (201 Created)**:
+```json
+{
+  "conversation_id": "string",
+  "session_id": "string",
+  "title": "string",
+  "created_at": "datetime"
+}
+```
+
+#### POST /api/chat/{conversation_id}/message
+Send a message in an existing conversation
+
+**Request**:
+```json
+{
+  "content": "string",
+  "user_context": {
+    "selected_text": "string",
+    "current_page_url": "string"
+  }
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "message_id": "string",
+  "conversation_id": "string",
+  "role": "assistant",
+  "content": "string",
+  "sources": [
+    {
+      "title": "string",
+      "url": "string",
+      "snippet": "string",
+      "relevance_score": 0.95
+    }
+  ],
+  "created_at": "datetime"
+}
+```
+
+#### GET /api/chat/{conversation_id}/stream
+Stream a response with Server-Sent Events (SSE)
+
+**Request**:
+```json
+{
+  "content": "string",
+  "user_context": {
+    "selected_text": "string",
+    "current_page_url": "string"
+  }
+}
+```
+
+**Response (200 OK with text/event-stream)**:
+```text
+data: {"token": "Hello"}
+data: {"token": "world"}
+data: {"sources": [{"title": "Getting Started", "url": "/docs/intro", "relevance_score": 0.98}]}
+data: {"done": true, "message_id": "uuid", "conversation_id": "uuid"}
+```
+
+#### GET /api/chat/conversations
+Retrieve all conversations for a session
+
+**Response (200 OK)**:
+```json
+[
+  {
+    "conversation_id": "string",
+    "title": "string",
+    "created_at": "datetime",
+    "updated_at": "datetime",
+    "message_count": 5
+  }
+]
+```
+
+### 2. Document Ingestion Service
+
+#### POST /api/documents/ingest
+Ingest a document for RAG indexing
+
+**Request**:
+```json
+{
+  "title": "string",
+  "content": "string",
+  "url": "string",
+  "metadata": {
+    "author": "string",
+    "tags": ["string"],
+    "version": "string"
+  }
+}
+```
+
+**Response (201 Created)**:
+```json
+{
+  "document_id": "string",
+  "chunks_processed": 5,
+  "status": "completed"
+}
+```
+
+#### POST /api/documents/ingest/batch
+Ingest multiple documents in batch
+
+**Request**:
+```json
+[
+  {
+    "title": "string",
+    "content": "string",
+    "url": "string",
+    "metadata": {}
+  }
+]
+```
+
+**Response (201 Created)**:
+```json
+{
+  "documents_processed": 3,
+  "status": "completed",
+  "details": [
+    {
+      "url": "string",
+      "status": "success",
+      "document_id": "string"
+    }
+  ]
+}
+```
+
+#### DELETE /api/documents/{document_id}
+Delete a document and its chunks from the index
+
+**Response (200 OK)**:
+```json
+{
+  "status": "deleted",
+  "document_id": "string"
+}
+```
+
+### 3. Search and Retrieval Service
+
+#### POST /api/search
+Perform hybrid search (keyword + semantic) for relevant documents
+
+**Request**:
+```json
+{
+  "query": "string",
+  "filters": {
+    "tags": ["string"],
+    "date_range": {
+      "start": "datetime",
+      "end": "datetime"
+    }
+  },
+  "limit": 10
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "results": [
+    {
+      "document_chunk_id": "string",
+      "document_id": "string",
+      "title": "string",
+      "url": "string",
+      "content": "string",
+      "relevance_score": 0.95,
+      "metadata": {}
+    }
+  ]
+}
+```
+
+#### POST /api/query-selection
+Query specifically about selected text with document context
+
+**Request**:
+```json
+{
+  "selected_text": "string",
+  "current_page_url": "string",
+  "additional_context": "string"
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "response": "string",
+  "sources": [
+    {
+      "title": "string",
+      "url": "string",
+      "relevance_score": 0.95,
+      "is_selected_context": true
+    }
+  ]
+}
+```
+
+### 4. Document Management Service
+
+#### GET /api/documents/indexed
+Get list of all indexed documents
+
+**Response (200 OK)**:
+```json
+{
+  "documents": [
+    {
+      "document_id": "string",
+      "title": "string",
+      "url": "string",
+      "chunk_count": 5,
+      "indexed_at": "datetime",
+      "metadata": {}
+    }
+  ],
+  "total_count": 100
+}
+```
+
+#### GET /api/documents/{document_id}
+Get details about a specific document
+
+**Response (200 OK)**:
+```json
+{
+  "document_id": "string",
+  "title": "string",
+  "url": "string",
+  "content_preview": "string",
+  "chunk_count": 5,
+  "indexed_at": "datetime",
+  "metadata": {},
+  "chunks": [
+    {
+      "chunk_id": "string",
+      "content_preview": "string",
+      "chunk_index": 0
+    }
+  ]
+}
+```
+
+### 5. User Preferences Service
+
+#### GET /api/user/preferences
+Get user preferences including theme settings
+
+**Response (200 OK)**:
+```json
+{
+  "theme": "light|dark",
+  "chat_position": "bottom-right",
+  "default_view": "expanded|collapsed",
+  "last_active_conversation": "string"
+}
+```
+
+#### PUT /api/user/preferences
+Update user preferences
+
+**Request**:
+```json
+{
+  "theme": "light|dark",
+  "chat_position": "bottom-right",
+  "default_view": "expanded|collapsed"
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "theme": "light",
+  "chat_position": "bottom-right",
+  "default_view": "collapsed",
+  "updated_at": "datetime"
+}
+```
+
+## Error Responses
+
+All endpoints follow a consistent error response format:
+
+**4xx/5xx Error Response**:
+```json
+{
+  "error": {
+    "code": "string",
+    "message": "string",
+    "details": "string"
+  }
+}
+```
+
+## Common Error Codes
+
+- `400 Bad Request`: Invalid request parameters or body
+- `401 Unauthorized`: Authentication required but missing/invalid
+- `403 Forbidden`: Access denied to the requested resource
+- `404 Not Found`: Requested resource does not exist
+- `422 Unprocessable Entity`: Valid request format but invalid data
+- `429 Too Many Requests`: Rate limit exceeded
+- `500 Internal Server Error`: Unexpected server error
+- `503 Service Unavailable`: External service (e.g., Cohere, Qdrant) unavailable
+
+## Validation Rules
+
+### Request Validation
+- All string fields have maximum length restrictions
+- All datetime fields follow ISO 8601 format
+- All required fields must be present
+- All array fields have maximum length restrictions
+
+### Response Validation
+- All datetime fields in responses follow ISO 8601 format
+- All numeric fields are properly typed (int, float, etc.)
+- All enum fields contain only allowed values

@@ -74,15 +74,9 @@ async def send_message(
             api_logger.error(f"Invalid conversation ID format: {conversation_id} - {str(e)}")
             raise HTTPException(status_code=400, detail="Invalid conversation ID format")
 
-        # Initialize chat service (reuse pre-initialized services if available)
+        # Initialize chat service with pre-initialized services from app.state
         api_logger.debug("Initializing ChatService")
-        chat_service = ChatService(db)
-
-        # Use pre-initialized services from app.state if available (faster!)
-        if hasattr(request.app.state, 'embedding_service'):
-            api_logger.debug("Using pre-initialized services (fast path)")
-            chat_service.embedding_service = request.app.state.embedding_service
-            chat_service.retrieval_service = request.app.state.retrieval_service
+        chat_service = ChatService(db, app_state=request.app.state)
 
         # Create the user message
         api_logger.info("Creating user message in database")
@@ -169,13 +163,8 @@ async def query_selection(
         except ValueError:
             raise HTTPException(status_code=400, detail="Invalid conversation ID format")
 
-        # Initialize chat service
-        chat_service = ChatService(db)
-
-        # Use pre-initialized services if available
-        if hasattr(request.app.state, 'embedding_service'):
-            chat_service.embedding_service = request.app.state.embedding_service
-            chat_service.retrieval_service = request.app.state.retrieval_service
+        # Initialize chat service with pre-initialized services from app.state
+        chat_service = ChatService(db, app_state=request.app.state)
 
         # Create user message combining question and selection
         combined_message = f"{query_request.question}\n\nSelected text: {query_request.selected_text}"

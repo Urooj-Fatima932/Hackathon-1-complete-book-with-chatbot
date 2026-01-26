@@ -1,3 +1,4 @@
+
 # Feature Specification: Robotics Course Content Generation Process
 
 ## 1. User Problem
@@ -64,3 +65,5 @@ A robust system that takes a high-level course outline as input and generates a 
 - The actual generation of `.mdx` course content. This specification only covers the generation of the *specification* files that guide that process.
 - The creation of placeholder images or diagrams. The process will only specify *where* they are needed.
 - A user interface for managing the course outline. The input is assumed to be a single markdown file.
+
+
