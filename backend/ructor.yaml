@@ -1,19 +1,7 @@
-name: docusaurus-chatbot-backend
-description: FastAPI backend for Docusaurus RAG Chatbot - handles chat, RAG pipeline, and user preferences
-license: apache-2.0
-tags:
-  - python
-  - fastapi
-  - chatbot
-  - rag
-  - qdrant
-  - cohere
+sdk: docker
+title: Docusaurus RAG Chatbot Backend
 emoji: 🤖
-private: false
-env: static
-variables:
-  PORT: "7860"
-  COHERE_API_KEY: ""
-  QDRANT_URL: ""
-  QDRANT_API_KEY: ""
-  DATABASE_URL: ""
+colorFrom: blue
+colorTo: purple
+sdk_version: 3.16.0
+app_file: src/main.py
