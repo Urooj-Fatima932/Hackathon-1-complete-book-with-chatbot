@@ -15,9 +15,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # HF Spaces provides PORT environment variable
-ENV PORT=7860
-EXPOSE 7860
+ENV PORT=8000
+EXPOSE 8000
 
 # Run the app using HF-provided port
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
