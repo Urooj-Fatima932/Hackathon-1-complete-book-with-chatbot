@@ -80,7 +80,8 @@ class ChatService:
 
             # Retrieve relevant context from documents
             service_logger.info("Retrieving context from knowledge base...")
-            context_docs = await self.retrieval_service.search_and_rerank(
+            retrieval_service = self._get_retrieval_service()
+            context_docs = await retrieval_service.search_and_rerank(
                 query=user_message.content,
                 search_top_k=settings.retrieval_limit,
                 rerank_top_k=settings.rerank_top_k
@@ -114,7 +115,8 @@ Please try rephrasing your question or ask about topics covered in the textbook.
                 return prompt
 
             try:
-                response = await self.cohere_client.chat(
+                cohere_client = self._get_cohere_client()
+                response = await cohere_client.chat(
                     model="command-r-plus-08-2024",
                     message=prompt,
                     max_tokens=500,  # Increased for better answers
@@ -161,7 +163,8 @@ Please try rephrasing your question or ask about topics covered in the textbook.
         service_logger.info(f"Generating streaming response for conversation {conversation_id}")
 
         # Retrieve relevant context from documents
-        context_docs = await self.retrieval_service.search_and_rerank(
+        retrieval_service = self._get_retrieval_service()
+        context_docs = await retrieval_service.search_and_rerank(
             query=user_message.content,
             search_top_k=settings.retrieval_limit,
             rerank_top_k=settings.rerank_top_k
@@ -187,7 +190,8 @@ Answer (based ONLY on the context above):"""
 
         # Use Cohere chat endpoint for streaming
         service_logger.info("Starting Cohere streaming response")
-        async with self.cohere_client.chat_stream(
+        cohere_client = self._get_cohere_client()
+        async with cohere_client.chat_stream(
             model="command-r-plus-08-2024",
             message=prompt,
             temperature=0.3
@@ -199,7 +203,8 @@ Answer (based ONLY on the context above):"""
     async def query_selected_text(self, selected_text: str, context: str = "") -> Tuple[str, List[dict]]:
         """Handle query based on selected text"""
         # Retrieve relevant context from documents based on selected text
-        context_docs = await self.retrieval_service.search_and_rerank(
+        retrieval_service = self._get_retrieval_service()
+        context_docs = await retrieval_service.search_and_rerank(
             query=selected_text,
             search_top_k=settings.retrieval_limit,
             rerank_top_k=settings.rerank_top_k
@@ -215,7 +220,8 @@ Answer (based ONLY on the context above):"""
             prompt = f"Selected text: {selected_text}\n\nAdditional context: {context}\n\nPlease provide information about this selection:"
 
         # Generate response using Cohere Chat API (replaces deprecated generate API)
-        response = await self.cohere_client.chat(
+        cohere_client = self._get_cohere_client()
+        response = await cohere_client.chat(
             model="command-r-plus-08-2024",
             message=prompt,
             max_tokens=500,

@@ -1,5 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+# Force reload environment variables
+from dotenv import load_dotenv
+load_dotenv(override=True)
+
 from .api.chat import router as chat_router
 from .api.query import router as query_router
 from .api.user import router as user_router

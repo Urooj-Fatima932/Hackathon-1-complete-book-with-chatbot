@@ -1,6 +1,7 @@
-description = "Create or update the feature specification from a natural language feature description."
+---
+description: Create or update the feature specification from a natural language feature description.
+---
 
-prompt = """
 ---
 description: Create or update the feature specification from a natural language feature description.
 ---
@@ -60,7 +61,7 @@ Given that feature description, do this:
    - You must only ever run this script once per feature
    - The JSON is provided in the terminal as output - always refer to it to get the actual content you're looking for
    - The JSON output will contain BRANCH_NAME and SPEC_FILE paths
-   - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\\''m Groot' (or double-quote if possible: "I'm Groot")
+   - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot")
 
 3. Load `.specify/templates/spec-template.md` to understand required sections.
 
@@ -276,4 +277,4 @@ As the main request completes, you MUST create and complete a PHR (Prompt Histor
 4) Validate + report
    - No unresolved placeholders; path under `history/prompts/` and matches stage; stage/title/date coherent; print ID + path + stage + title.
    - On failure: warn, don't block. Skip only for `/sp.phr`.
-"""
+

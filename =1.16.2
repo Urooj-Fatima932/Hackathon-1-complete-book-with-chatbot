@@ -1,0 +1,154 @@
+Collecting cohere
+  Using cached cohere-5.20.4-py3-none-any.whl.metadata (3.5 kB)
+Collecting qdrant-client
+  Using cached qdrant_client-1.16.2-py3-none-any.whl.metadata (11 kB)
+Collecting pydantic-settings==2.1.0
+  Using cached pydantic_settings-2.1.0-py3-none-any.whl.metadata (2.9 kB)
+Collecting python-dotenv==1.0.0
+  Using cached python_dotenv-1.0.0-py3-none-any.whl.metadata (21 kB)
+Collecting aiofiles==23.2.1
+  Using cached aiofiles-23.2.1-py3-none-any.whl.metadata (9.7 kB)
+Collecting python-multipart==0.0.6
+  Using cached python_multipart-0.0.6-py3-none-any.whl.metadata (2.5 kB)
+Requirement already satisfied: passlib==1.7.4 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from passlib[bcrypt]==1.7.4) (1.7.4)
+Requirement already satisfied: python-jose==3.3.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from python-jose[cryptography]==3.3.0) (3.3.0)
+Collecting redis==5.0.1
+  Using cached redis-5.0.1-py3-none-any.whl.metadata (8.9 kB)
+Collecting limits==3.6.0
+  Using cached limits-3.6.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting beautifulsoup4==4.12.2
+  Using cached beautifulsoup4-4.12.2-py3-none-any.whl.metadata (3.6 kB)
+Requirement already satisfied: tiktoken in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (0.12.0)
+Collecting openai==1.3.5
+  Using cached openai-1.3.5-py3-none-any.whl.metadata (16 kB)
+Requirement already satisfied: pydantic>=2.3.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from pydantic-settings==2.1.0) (2.12.5)
+Requirement already satisfied: ecdsa!=0.15 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from python-jose==3.3.0->python-jose[cryptography]==3.3.0) (0.19.1)
+Requirement already satisfied: rsa in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from python-jose==3.3.0->python-jose[cryptography]==3.3.0) (4.9.1)
+Requirement already satisfied: pyasn1 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from python-jose==3.3.0->python-jose[cryptography]==3.3.0) (0.6.2)
+Requirement already satisfied: deprecated>=1.2 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from limits==3.6.0) (1.3.1)
+Collecting importlib-resources>=1.3 (from limits==3.6.0)
+  Using cached importlib_resources-6.5.2-py3-none-any.whl.metadata (3.9 kB)
+Collecting packaging<24,>=21 (from limits==3.6.0)
+  Using cached packaging-23.2-py3-none-any.whl.metadata (3.2 kB)
+Requirement already satisfied: typing-extensions in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from limits==3.6.0) (4.15.0)
+Collecting soupsieve>1.2 (from beautifulsoup4==4.12.2)
+  Using cached soupsieve-2.8.3-py3-none-any.whl.metadata (4.6 kB)
+Collecting anyio<4,>=3.5.0 (from openai==1.3.5)
+  Using cached anyio-3.7.1-py3-none-any.whl.metadata (4.7 kB)
+Requirement already satisfied: distro<2,>=1.7.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from openai==1.3.5) (1.9.0)
+Requirement already satisfied: httpx<1,>=0.23.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from openai==1.3.5) (0.28.1)
+Requirement already satisfied: tqdm>4 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from openai==1.3.5) (4.67.3)
+Requirement already satisfied: bcrypt>=3.1.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from passlib[bcrypt]==1.7.4) (5.0.0)
+Requirement already satisfied: cryptography>=3.4.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from python-jose[cryptography]==3.3.0) (46.0.4)
+Requirement already satisfied: idna>=2.8 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from anyio<4,>=3.5.0->openai==1.3.5) (3.11)
+Requirement already satisfied: sniffio>=1.1 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from anyio<4,>=3.5.0->openai==1.3.5) (1.3.1)
+Requirement already satisfied: certifi in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from httpx<1,>=0.23.0->openai==1.3.5) (2026.1.4)
+Requirement already satisfied: httpcore==1.* in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from httpx<1,>=0.23.0->openai==1.3.5) (1.0.9)
+Requirement already satisfied: h11>=0.16 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from httpcore==1.*->httpx<1,>=0.23.0->openai==1.3.5) (0.16.0)
+Requirement already satisfied: annotated-types>=0.6.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from pydantic>=2.3.0->pydantic-settings==2.1.0) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from pydantic>=2.3.0->pydantic-settings==2.1.0) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from pydantic>=2.3.0->pydantic-settings==2.1.0) (0.4.2)
+Collecting fastavro<2.0.0,>=1.9.4 (from cohere)
+  Using cached fastavro-1.12.1-cp313-cp313-win_amd64.whl.metadata (5.9 kB)
+Requirement already satisfied: requests<3.0.0,>=2.0.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from cohere) (2.32.5)
+Requirement already satisfied: tokenizers<1,>=0.15 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from cohere) (0.22.2)
+Requirement already satisfied: types-requests<3.0.0,>=2.0.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from cohere) (2.32.4.20260107)
+Requirement already satisfied: charset_normalizer<4,>=2 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from requests<3.0.0,>=2.0.0->cohere) (3.4.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from requests<3.0.0,>=2.0.0->cohere) (2.6.3)
+Requirement already satisfied: huggingface-hub<2.0,>=0.16.4 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from tokenizers<1,>=0.15->cohere) (1.4.1)
+Requirement already satisfied: filelock in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from huggingface-hub<2.0,>=0.16.4->tokenizers<1,>=0.15->cohere) (3.20.3)
+Requirement already satisfied: fsspec>=2023.5.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from huggingface-hub<2.0,>=0.16.4->tokenizers<1,>=0.15->cohere) (2026.2.0)
+Requirement already satisfied: hf-xet<2.0.0,>=1.2.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from huggingface-hub<2.0,>=0.16.4->tokenizers<1,>=0.15->cohere) (1.2.0)
+Requirement already satisfied: pyyaml>=5.1 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from huggingface-hub<2.0,>=0.16.4->tokenizers<1,>=0.15->cohere) (6.0.3)
+Requirement already satisfied: shellingham in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from huggingface-hub<2.0,>=0.16.4->tokenizers<1,>=0.15->cohere) (1.5.4)
+Requirement already satisfied: typer-slim in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from huggingface-hub<2.0,>=0.16.4->tokenizers<1,>=0.15->cohere) (0.21.1)
+Collecting grpcio>=1.41.0 (from qdrant-client)
+  Using cached grpcio-1.78.0-cp313-cp313-win_amd64.whl.metadata (3.9 kB)
+Collecting numpy>=2.1.0 (from qdrant-client)
+  Using cached numpy-2.4.2-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Collecting portalocker<4.0,>=2.7.0 (from qdrant-client)
+  Using cached portalocker-3.2.0-py3-none-any.whl.metadata (8.7 kB)
+Collecting protobuf>=3.20.0 (from qdrant-client)
+  Using cached protobuf-6.33.5-cp310-abi3-win_amd64.whl.metadata (593 bytes)
+Requirement already satisfied: pywin32>=226 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from portalocker<4.0,>=2.7.0->qdrant-client) (311)
+Requirement already satisfied: regex>=2022.1.18 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from tiktoken) (2026.1.15)
+Requirement already satisfied: cffi>=2.0.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from cryptography>=3.4.0->python-jose[cryptography]==3.3.0) (2.0.0)
+Requirement already satisfied: pycparser in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from cffi>=2.0.0->cryptography>=3.4.0->python-jose[cryptography]==3.3.0) (3.0)
+Requirement already satisfied: wrapt<3,>=1.10 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from deprecated>=1.2->limits==3.6.0) (2.1.1)
+Requirement already satisfied: six>=1.9.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from ecdsa!=0.15->python-jose==3.3.0->python-jose[cryptography]==3.3.0) (1.17.0)
+Collecting h2<5,>=3 (from httpx[http2]>=0.20.0->qdrant-client)
+  Using cached h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]>=0.20.0->qdrant-client)
+  Using cached hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]>=0.20.0->qdrant-client)
+  Using cached hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+Requirement already satisfied: colorama in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from tqdm>4->openai==1.3.5) (0.4.6)
+Requirement already satisfied: click>=8.0.0 in c:\users\saqlain\appdata\local\programs\python\python313\lib\site-packages (from typer-slim->huggingface-hub<2.0,>=0.16.4->tokenizers<1,>=0.15->cohere) (8.3.1)
+Using cached pydantic_settings-2.1.0-py3-none-any.whl (11 kB)
+Using cached python_dotenv-1.0.0-py3-none-any.whl (19 kB)
+Using cached aiofiles-23.2.1-py3-none-any.whl (15 kB)
+Using cached python_multipart-0.0.6-py3-none-any.whl (45 kB)
+Using cached redis-5.0.1-py3-none-any.whl (250 kB)
+Using cached limits-3.6.0-py3-none-any.whl (42 kB)
+Using cached beautifulsoup4-4.12.2-py3-none-any.whl (142 kB)
+Using cached openai-1.3.5-py3-none-any.whl (220 kB)
+Using cached anyio-3.7.1-py3-none-any.whl (80 kB)
+Using cached packaging-23.2-py3-none-any.whl (53 kB)
+Using cached cohere-5.20.4-py3-none-any.whl (318 kB)
+Using cached fastavro-1.12.1-cp313-cp313-win_amd64.whl (444 kB)
+Using cached qdrant_client-1.16.2-py3-none-any.whl (377 kB)
+Using cached portalocker-3.2.0-py3-none-any.whl (22 kB)
+Using cached grpcio-1.78.0-cp313-cp313-win_amd64.whl (4.8 MB)
+Using cached h2-4.3.0-py3-none-any.whl (61 kB)
+Using cached hpack-4.1.0-py3-none-any.whl (34 kB)
+Using cached hyperframe-6.1.0-py3-none-any.whl (13 kB)
+Using cached importlib_resources-6.5.2-py3-none-any.whl (37 kB)
+Using cached numpy-2.4.2-cp313-cp313-win_amd64.whl (12.3 MB)
+Using cached protobuf-6.33.5-cp310-abi3-win_amd64.whl (437 kB)
+Using cached soupsieve-2.8.3-py3-none-any.whl (37 kB)
+Installing collected packages: soupsieve, redis, python-multipart, python-dotenv, protobuf, portalocker, packaging, numpy, importlib-resources, hyperframe, hpack, grpcio, fastavro, anyio, aiofiles, limits, h2, beautifulsoup4, pydantic-settings, openai, qdrant-client, cohere
+  Attempting uninstall: redis
+    Found existing installation: redis 7.1.0
+    Uninstalling redis-7.1.0:
+      Successfully uninstalled redis-7.1.0
+  Attempting uninstall: python-multipart
+    Found existing installation: python-multipart 0.0.20
+    Uninstalling python-multipart-0.0.20:
+      Successfully uninstalled python-multipart-0.0.20
+  Attempting uninstall: python-dotenv
+    Found existing installation: python-dotenv 1.2.1
+    Uninstalling python-dotenv-1.2.1:
+      Successfully uninstalled python-dotenv-1.2.1
+  Attempting uninstall: packaging
+    Found existing installation: packaging 26.0
+    Uninstalling packaging-26.0:
+      Successfully uninstalled packaging-26.0
+  Attempting uninstall: anyio
+    Found existing installation: anyio 4.12.1
+    Uninstalling anyio-4.12.1:
+      Successfully uninstalled anyio-4.12.1
+  Attempting uninstall: limits
+    Found existing installation: limits 5.7.0
+    Uninstalling limits-5.7.0:
+      Successfully uninstalled limits-5.7.0
+  Attempting uninstall: pydantic-settings
+    Found existing installation: pydantic-settings 2.7.1
+    Uninstalling pydantic-settings-2.7.1:
+      Successfully uninstalled pydantic-settings-2.7.1
+  Attempting uninstall: openai
+    Found existing installation: openai 2.17.0
+    Uninstalling openai-2.17.0:
+      Successfully uninstalled openai-2.17.0
+
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+litellm 1.81.9 requires openai>=2.8.0, but you have openai 1.3.5 which is incompatible.
+mcp 1.26.0 requires anyio>=4.5, but you have anyio 3.7.1 which is incompatible.
+mcp 1.26.0 requires pydantic-settings>=2.5.2, but you have pydantic-settings 2.1.0 which is incompatible.
+mcp 1.26.0 requires python-multipart>=0.0.9, but you have python-multipart 0.0.6 which is incompatible.
+openai-agents 0.8.1 requires openai<3,>=2.9.0, but you have openai 1.3.5 which is incompatible.
+portfolio-backend 1.0.0 requires python-multipart>=0.0.9, but you have python-multipart 0.0.6 which is incompatible.
+sse-starlette 3.0.3 requires anyio>=4.7.0, but you have anyio 3.7.1 which is incompatible.
+Successfully installed aiofiles-23.2.1 anyio-3.7.1 beautifulsoup4-4.12.2 cohere-5.20.4 fastavro-1.12.1 grpcio-1.78.0 h2-4.3.0 hpack-4.1.0 hyperframe-6.1.0 importlib-resources-6.5.2 limits-3.6.0 numpy-2.4.2 openai-1.3.5 packaging-23.2 portalocker-3.2.0 protobuf-6.33.5 pydantic-settings-2.1.0 python-dotenv-1.0.0 python-multipart-0.0.6 qdrant-client-1.16.2 redis-5.0.1 soupsieve-2.8.3
+
+[notice] A new release of pip is available: 25.2 -> 26.0.1
+[notice] To update, run: python.exe -m pip install --upgrade pip

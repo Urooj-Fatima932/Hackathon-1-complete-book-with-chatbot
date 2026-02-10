@@ -24,6 +24,10 @@ import uuid
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# Force reload environment variables before importing settings
+from dotenv import load_dotenv
+load_dotenv(override=True)
+
 from src.core.config import settings
 from src.core.database import AsyncSessionLocal
 from src.models.document import Document, DocumentChunk
@@ -44,8 +48,8 @@ class DocumentIngester:
             prefer_grpc=False
         )
         self.collection_name = "document_chunks"
-        self.chunk_size = 1000  # Characters per chunk
-        self.chunk_overlap = 200  # Overlap between chunks
+        self.chunk_size = 512  # Characters per chunk
+        self.chunk_overlap = 50  # Overlap between chunks
 
     async def ensure_collection_exists(self):
         """Ensure the Qdrant collection exists with correct configuration"""

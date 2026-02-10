@@ -6,7 +6,23 @@
       "Bash(.venv/Scripts/python.exe -c \"import fastapi; import uvicorn; import cohere; print\\(''Dependencies OK''\\)\")",
       "Bash(.venv/Scripts/python.exe:*)",
       "Bash(npm run build:*)",
-      "Bash(powershell.exe -Command \"Remove-Item -Path ''C:\\\\temp\\\\HF_SPACE_PUSH'' -Recurse -Force; New-Item -ItemType Directory -Path ''C:\\\\temp\\\\HF_SPACE_PUSH'' | Out-Null\")"
+      "Bash(powershell.exe -Command \"Remove-Item -Path ''C:\\\\temp\\\\HF_SPACE_PUSH'' -Recurse -Force; New-Item -ItemType Directory -Path ''C:\\\\temp\\\\HF_SPACE_PUSH'' | Out-Null\")",
+      "Bash(node --version:*)",
+      "Bash(pip show:*)",
+      "Bash(python -m uvicorn:*)",
+      "Bash(npm start)",
+      "Bash(pip install:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd //c \"taskkill /PID 16272 /F\")",
+      "Bash(cmd //c \"taskkill /PID 16076 /F & taskkill /PID 7228 /F\")",
+      "Bash(cmd //c \"taskkill /F /IM python.exe\")",
+      "WebSearch",
+      "WebFetch(domain:undraw.co)",
+      "WebFetch(domain:www.svgrepo.com)",
+      "WebFetch(domain:storyset.com)",
+      "WebFetch(domain:stories.freepiklabs.com)"
     ]
   }
 }
