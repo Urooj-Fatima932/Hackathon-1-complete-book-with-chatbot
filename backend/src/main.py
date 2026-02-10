@@ -29,7 +29,7 @@ def create_app() -> FastAPI:
     # Add CORS middleware
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # In production, replace with specific origins
+        allow_origins=["https://hackathon-textbook-with-rag-chatbot-three.vercel.app"],  # In production, replace with specific origins
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
